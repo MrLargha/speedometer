@@ -1,4 +1,4 @@
-package me.ibrahimsn.speedometersample
+package ru.mrlargha.speedometersample
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

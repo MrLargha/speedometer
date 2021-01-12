@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     android:padding="30dp">
 
-    <me.ibrahimsn.lib.Speedometer
+    <ru.mrlargha.lib.Speedometer
         android:id="@+id/speedometer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:maxSpeed="100"
-        app:borderSize="8dp"
-        app:metricText="km/h"
-        app:borderColor="#402c47"
-        app:fillColor="#d83a78"
-        app:textColor="#f5f5f5"
+        android:layout_width="0dp"
+        android:layout_height="312dp"
+        app:borderColor="#2F4904"
+        app:borderSize="15dp"
+        app:fillColor="#7CD83A"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintVertical_bias="0.181"
+        app:maxSpeed="50"
+        app:metricText="km/h"
+        app:textColor="#f5f5f5" />
+
+    <SeekBar
+        android:id="@+id/seek"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="5000"
+        android:progress="25"
+        app:layout_constraintBottom_toTopOf="@+id/speedometer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.033"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.094" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

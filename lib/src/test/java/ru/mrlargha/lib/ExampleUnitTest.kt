@@ -1,4 +1,4 @@
-package me.ibrahimsn.lib
+package ru.mrlargha.lib
 
 import org.junit.Test
 

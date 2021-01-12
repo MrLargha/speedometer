@@ -1,4 +1,4 @@
-package me.ibrahimsn.speedometersample
+package ru.mrlargha.speedometersample
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package me.ibrahimsn.lib
+package ru.mrlargha.lib
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -8,7 +8,10 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.annotation.ColorInt
 import androidx.annotation.Dimension
+import androidx.annotation.FontRes
 import androidx.core.animation.doOnEnd
+import androidx.core.content.res.ResourcesCompat
+import java.text.DecimalFormat
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -39,6 +42,9 @@ class Speedometer @JvmOverloads constructor(
 
     private var _metricText = "km/h"
 
+    @FontRes
+    private val _font = R.font.digital
+
     // Dynamic Values
     private val indicatorBorderRect = RectF()
 
@@ -48,18 +54,26 @@ class Speedometer @JvmOverloads constructor(
 
     private var angle = MIN_ANGLE
 
-    private var speed = 0
+    private var speed = 0f
 
     // Dimension Getters
     private val centerX get() = width / 2f
 
     private val centerY get() = height / 2f
 
+    private val decimalFormat = DecimalFormat("##.#")
+
     // Core Attributes
     var maxSpeed: Int
         get() = _maxSpeed
         set(value) {
             _maxSpeed = value
+            invalidate()
+        }
+
+    var odometerText = "00000 m"
+        set(value) {
+            field = value
             invalidate()
         }
 
@@ -160,14 +174,16 @@ class Speedometer @JvmOverloads constructor(
         isAntiAlias = true
         style = Paint.Style.FILL
         color = textColor
-        textSize = 50f
+        textSize = 40f
     }
 
     private val paintSpeed = Paint().apply {
         isAntiAlias = true
         style = Paint.Style.FILL
         color = textColor
-        textSize = 260f
+        textSize = 240f
+        if (!isInEditMode)
+            typeface = ResourcesCompat.getFont(getContext(), _font)
     }
 
     private val paintMetric = Paint().apply {
@@ -175,6 +191,15 @@ class Speedometer @JvmOverloads constructor(
         style = Paint.Style.FILL
         color = textColor
         textSize = 50f
+    }
+
+    private val paintOdometer = Paint().apply {
+        isAntiAlias = true
+        style = Paint.Style.FILL
+        color = textColor
+        textSize = 70f
+        if (!isInEditMode)
+            typeface = ResourcesCompat.getFont(getContext(), _font)
     }
 
     // Animators
@@ -259,6 +284,7 @@ class Speedometer @JvmOverloads constructor(
         renderBorderFill(canvas)
         renderTickBorder(canvas)
         renderSpeedAndMetricText(canvas)
+        renderOdometerText(canvas)
     }
 
     private fun renderMinorTicks(canvas: Canvas) {
@@ -325,7 +351,7 @@ class Speedometer @JvmOverloads constructor(
 
     private fun renderSpeedAndMetricText(canvas: Canvas) {
         canvas.drawTextCentred(
-                speed.toString(),
+                decimalFormat.format(speed),
                 width / 2f,
                 height / 2f,
                 paintSpeed
@@ -338,15 +364,28 @@ class Speedometer @JvmOverloads constructor(
         )
     }
 
+    private fun renderOdometerText(canvas: Canvas) {
+        canvas.drawTextCentred(
+                odometerText,
+                width / 2f,
+                height / 2f + paintSpeed.textSize / 2 + textGap * 3 + 10f,
+                paintOdometer
+        )
+    }
+
+    private fun mapSpeedToAngle(speed: Float): Float {
+        return (MIN_ANGLE + ((MAX_ANGLE - MIN_ANGLE) / (maxSpeed - MIN_SPEED)) * (speed - MIN_SPEED))
+    }
+
     private fun mapSpeedToAngle(speed: Int): Float {
         return (MIN_ANGLE + ((MAX_ANGLE - MIN_ANGLE) / (maxSpeed - MIN_SPEED)) * (speed - MIN_SPEED))
     }
 
-    private fun mapAngleToSpeed(angle: Float): Int {
-        return (MIN_SPEED + ((maxSpeed - MIN_SPEED) / (MAX_ANGLE - MIN_ANGLE)) * (angle - MIN_ANGLE)).toInt()
+    private fun mapAngleToSpeed(angle: Float): Float {
+        return (MIN_SPEED + ((maxSpeed - MIN_SPEED) / (MAX_ANGLE - MIN_ANGLE)) * (angle - MIN_ANGLE))
     }
 
-    fun setSpeed(s: Int, d: Long, onEnd: (() -> Unit)? = null) {
+    fun setSpeed(s: Float, d: Long = 0, onEnd: (() -> Unit)? = null) {
         animator.apply {
             setFloatValues(mapSpeedToAngle(speed), mapSpeedToAngle(s))
 
