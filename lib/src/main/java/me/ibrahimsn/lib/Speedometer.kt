@@ -14,9 +14,9 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 class Speedometer @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
     // Attribute Defaults
@@ -160,7 +160,7 @@ class Speedometer @JvmOverloads constructor(
         isAntiAlias = true
         style = Paint.Style.FILL
         color = textColor
-        textSize = 40f
+        textSize = 50f
     }
 
     private val paintSpeed = Paint().apply {
@@ -190,16 +190,16 @@ class Speedometer @JvmOverloads constructor(
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         indicatorBorderRect.set(
-            borderSize / 2,
-            borderSize / 2,
-            width - borderSize / 2,
-            width - borderSize / 2
+                borderSize / 2,
+                borderSize / 2,
+                width - borderSize / 2,
+                width - borderSize / 2
         )
         tickBorderRect.set(
-            borderSize + TICK_MARGIN,
-            borderSize + TICK_MARGIN,
-            width - borderSize - TICK_MARGIN,
-            width - borderSize - TICK_MARGIN
+                borderSize + TICK_MARGIN,
+                borderSize + TICK_MARGIN,
+                width - borderSize - TICK_MARGIN,
+                width - borderSize - TICK_MARGIN
         )
     }
 
@@ -209,40 +209,40 @@ class Speedometer @JvmOverloads constructor(
 
     private fun obtainStyledAttributes(attrs: AttributeSet?, defStyleAttr: Int) {
         val typedArray = context.theme.obtainStyledAttributes(
-            attrs,
-            R.styleable.Speedometer,
-            defStyleAttr,
-            0
+                attrs,
+                R.styleable.Speedometer,
+                defStyleAttr,
+                0
         )
 
         try {
             with(typedArray) {
                 maxSpeed = getInt(
-                    R.styleable.Speedometer_maxSpeed,
-                    maxSpeed
+                        R.styleable.Speedometer_maxSpeed,
+                        maxSpeed
                 )
                 borderSize = getDimension(
-                    R.styleable.Speedometer_borderSize,
-                    borderSize
+                        R.styleable.Speedometer_borderSize,
+                        borderSize
                 )
                 textGap = getDimension(
-                    R.styleable.Speedometer_textGap,
-                    textGap
+                        R.styleable.Speedometer_textGap,
+                        textGap
                 )
                 metricText = getString(
-                    R.styleable.Speedometer_metricText
+                        R.styleable.Speedometer_metricText
                 ) ?: metricText
                 borderColor = getColor(
-                    R.styleable.Speedometer_borderColor,
-                    borderColor
+                        R.styleable.Speedometer_borderColor,
+                        borderColor
                 )
                 fillColor = getColor(
-                    R.styleable.Speedometer_fillColor,
-                    borderColor
+                        R.styleable.Speedometer_fillColor,
+                        borderColor
                 )
                 textColor = getColor(
-                    R.styleable.Speedometer_textColor,
-                    borderColor
+                        R.styleable.Speedometer_textColor,
+                        borderColor
                 )
             }
         } catch (e: Exception) {
@@ -262,79 +262,79 @@ class Speedometer @JvmOverloads constructor(
     }
 
     private fun renderMinorTicks(canvas: Canvas) {
-        for (s in MIN_SPEED..maxSpeed step 2) {
+        for (s in MIN_SPEED..maxSpeed step (maxSpeed - MIN_SPEED) / 2) {
             if (s % 10 != 0) {
                 canvas.drawLine(
-                    centerX + (centerX - borderSize - MINOR_TICK_SIZE) * cos(mapSpeedToAngle(s).toRadian()),
-                    centerY - (centerY - borderSize - MINOR_TICK_SIZE) * sin(mapSpeedToAngle(s).toRadian()),
-                    centerX + (centerX - borderSize - TICK_MARGIN) * cos(mapSpeedToAngle(s).toRadian()),
-                    centerY - (centerY - borderSize - TICK_MARGIN) * sin(mapSpeedToAngle(s).toRadian()),
-                    paintMinorTick
+                        centerX + (centerX - borderSize - MINOR_TICK_SIZE) * cos(mapSpeedToAngle(s).toRadian()),
+                        centerY - (centerY - borderSize - MINOR_TICK_SIZE) * sin(mapSpeedToAngle(s).toRadian()),
+                        centerX + (centerX - borderSize - TICK_MARGIN) * cos(mapSpeedToAngle(s).toRadian()),
+                        centerY - (centerY - borderSize - TICK_MARGIN) * sin(mapSpeedToAngle(s).toRadian()),
+                        paintMinorTick
                 )
             }
         }
     }
 
     private fun renderMajorTicks(canvas: Canvas) {
-        for (s in MIN_SPEED..maxSpeed step 10) {
+        for (s in MIN_SPEED..maxSpeed step (maxSpeed - MIN_SPEED) / 10) {
             canvas.drawLine(
-                centerX + (centerX - borderSize - MAJOR_TICK_SIZE) * cos(mapSpeedToAngle(s).toRadian()),
-                centerY - (centerY - borderSize - MAJOR_TICK_SIZE) * sin(mapSpeedToAngle(s).toRadian()),
-                centerX + (centerX - borderSize - TICK_MARGIN) * cos(mapSpeedToAngle(s).toRadian()),
-                centerY - (centerY - borderSize - TICK_MARGIN) * sin(mapSpeedToAngle(s).toRadian()),
-                paintMajorTick
+                    centerX + (centerX - borderSize - MAJOR_TICK_SIZE) * cos(mapSpeedToAngle(s).toRadian()),
+                    centerY - (centerY - borderSize - MAJOR_TICK_SIZE) * sin(mapSpeedToAngle(s).toRadian()),
+                    centerX + (centerX - borderSize - TICK_MARGIN) * cos(mapSpeedToAngle(s).toRadian()),
+                    centerY - (centerY - borderSize - TICK_MARGIN) * sin(mapSpeedToAngle(s).toRadian()),
+                    paintMajorTick
             )
             canvas.drawTextCentred(
-                s.toString(),
-                centerX + (centerX - borderSize - MAJOR_TICK_SIZE - TICK_MARGIN - TICK_TEXT_MARGIN) * cos(mapSpeedToAngle(s).toRadian()),
-                centerY - (centerY - borderSize - MAJOR_TICK_SIZE - TICK_MARGIN - TICK_TEXT_MARGIN) * sin(mapSpeedToAngle(s).toRadian()),
-                paintTickText
+                    s.toString(),
+                    centerX + (centerX - borderSize - MAJOR_TICK_SIZE - TICK_MARGIN - TICK_TEXT_MARGIN) * cos(mapSpeedToAngle(s).toRadian()),
+                    centerY - (centerY - borderSize - MAJOR_TICK_SIZE - TICK_MARGIN - TICK_TEXT_MARGIN) * sin(mapSpeedToAngle(s).toRadian()),
+                    paintTickText
             )
         }
     }
 
     private fun renderBorder(canvas: Canvas) {
         canvas.drawArc(
-            indicatorBorderRect,
-            140f,
-            260f,
-            false,
-            paintIndicatorBorder
+                indicatorBorderRect,
+                START_ANGLE,
+                SWEEP_ANGLE,
+                false,
+                paintIndicatorBorder
         )
     }
 
     private fun renderTickBorder(canvas: Canvas) {
         canvas.drawArc(
-            tickBorderRect,
-            START_ANGLE,
-            SWEEP_ANGLE,
-            false,
-            paintTickBorder
+                tickBorderRect,
+                START_ANGLE,
+                SWEEP_ANGLE,
+                false,
+                paintTickBorder
         )
     }
 
     private fun renderBorderFill(canvas: Canvas) {
         canvas.drawArc(
-            indicatorBorderRect,
-            START_ANGLE,
-            MIN_ANGLE - angle,
-            false,
-            paintIndicatorFill
+                indicatorBorderRect,
+                START_ANGLE,
+                MIN_ANGLE - angle,
+                false,
+                paintIndicatorFill
         )
     }
 
     private fun renderSpeedAndMetricText(canvas: Canvas) {
         canvas.drawTextCentred(
-            speed.toString(),
-            width / 2f,
-            height / 2f,
-            paintSpeed
+                speed.toString(),
+                width / 2f,
+                height / 2f,
+                paintSpeed
         )
         canvas.drawTextCentred(
-            metricText,
-            width / 2f,
-            height / 2f + paintSpeed.textSize/2 + textGap,
-            paintMetric
+                metricText,
+                width / 2f,
+                height / 2f + paintSpeed.textSize / 2 + textGap,
+                paintMetric
         )
     }
 
@@ -356,6 +356,7 @@ class Speedometer @JvmOverloads constructor(
                 invalidate()
             }
             doOnEnd {
+                it.removeAllListeners()
                 onEnd?.invoke()
             }
             duration = d
