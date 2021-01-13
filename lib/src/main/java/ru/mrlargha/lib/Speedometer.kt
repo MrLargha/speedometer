@@ -288,8 +288,7 @@ class Speedometer @JvmOverloads constructor(
     }
 
     private fun renderMinorTicks(canvas: Canvas) {
-        for (s in MIN_SPEED..maxSpeed step (maxSpeed - MIN_SPEED) / 2) {
-            if (s % 10 != 0) {
+        for (s in MIN_SPEED..maxSpeed step (maxSpeed - MIN_SPEED) / MINOR_TICK_COUNT) {
                 canvas.drawLine(
                         centerX + (centerX - borderSize - MINOR_TICK_SIZE) * cos(mapSpeedToAngle(s).toRadian()),
                         centerY - (centerY - borderSize - MINOR_TICK_SIZE) * sin(mapSpeedToAngle(s).toRadian()),
@@ -297,12 +296,11 @@ class Speedometer @JvmOverloads constructor(
                         centerY - (centerY - borderSize - TICK_MARGIN) * sin(mapSpeedToAngle(s).toRadian()),
                         paintMinorTick
                 )
-            }
         }
     }
 
     private fun renderMajorTicks(canvas: Canvas) {
-        for (s in MIN_SPEED..maxSpeed step (maxSpeed - MIN_SPEED) / 10) {
+        for (s in MIN_SPEED..maxSpeed step (maxSpeed - MIN_SPEED) / MAJOR_TICK_COUNT) {
             canvas.drawLine(
                     centerX + (centerX - borderSize - MAJOR_TICK_SIZE) * cos(mapSpeedToAngle(s).toRadian()),
                     centerY - (centerY - borderSize - MAJOR_TICK_SIZE) * sin(mapSpeedToAngle(s).toRadian()),
@@ -413,10 +411,11 @@ class Speedometer @JvmOverloads constructor(
     }
 
     companion object {
-        private const val MIN_ANGLE = 220f
-        private const val MAX_ANGLE = -40f
-        private const val START_ANGLE = 140f
-        private const val SWEEP_ANGLE = 260f
+        private const val START_ANGLE = 120f
+        private const val SWEEP_ANGLE = 300f
+
+        private const val MIN_ANGLE = 360f - START_ANGLE
+        private const val MAX_ANGLE = MIN_ANGLE - SWEEP_ANGLE
 
         private const val MIN_SPEED = 0
         private const val TICK_MARGIN = 10f
@@ -425,5 +424,7 @@ class Speedometer @JvmOverloads constructor(
         private const val MINOR_TICK_SIZE = 25f
         private const val MAJOR_TICK_WIDTH = 4f
         private const val MINOR_TICK_WIDTH = 2f
+        private const val MAJOR_TICK_COUNT = 10
+        private const val MINOR_TICK_COUNT = MAJOR_TICK_COUNT * 5
     }
 }

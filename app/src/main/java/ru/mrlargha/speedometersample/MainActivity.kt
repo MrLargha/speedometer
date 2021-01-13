@@ -26,17 +26,14 @@ class MainActivity : AppCompatActivity() {
                 speedometer.setSpeed(progress.toFloat() / 100f, 0)
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
         GlobalScope.launch {
             var distance = 0f
-            while(true) {
+            while (true) {
                 distance += (seek.progress.toFloat() / 100f * 0.27777f) / 5
                 runOnUiThread {
                     speedometer.odometerText = "${distance.toInt()} m"

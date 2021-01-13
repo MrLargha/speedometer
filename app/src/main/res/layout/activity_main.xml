@@ -9,8 +9,8 @@
 
     <ru.mrlargha.lib.Speedometer
         android:id="@+id/speedometer"
-        android:layout_width="0dp"
-        android:layout_height="312dp"
+        android:layout_width="336dp"
+        android:layout_height="403dp"
         app:borderColor="#2F4904"
         app:borderSize="15dp"
         app:fillColor="#7CD83A"
