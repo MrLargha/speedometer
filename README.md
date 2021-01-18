@@ -1,10 +1,13 @@
 # Speedometer Android
 
+> Forked from ibrahimsn98/speedometer for some improvements for my tracking app
+
+Current changelist
+1. - Fixed a lot of bugs
+2. - Added odometer indicator
+3. - Removed some magic numbers for future customization. 
+
 A lightweight circular indicator view library for Android
-
-[![](https://jitpack.io/v/ibrahimsn98/speedometer.svg)](https://jitpack.io/#ibrahimsn98/speedometer)
-[![](https://androidweekly.net/issues/issue-443/badge)](https://androidweekly.net/issues/issue-443)
-
 
 ## GIF
 
@@ -15,7 +18,7 @@ In-app preview
 ## XML Attributes
 
 ```xml
-<me.ibrahimsn.lib.Speedometer
+<ru.mrlargha.lib.Speedometer
     android:id="@+id/speedometer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -63,7 +66,7 @@ dependencies {
 ```
 MIT License
 
-Copyright (c) 2020 İbrahim Süren, MrLargha
+Copyright (c) 2021 İbrahim Süren, MrLargha
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
