@@ -43,8 +43,6 @@ speedometer.setSpeed(95, 1000L, {
 
 ## Setup
 
-> Follow me on Twitter [@ibrahimsn98](https://twitter.com/ibrahimsn98)
-
 Step 1. Add the JitPack repository to your build file
 ```groovy
 allprojects {
@@ -57,7 +55,7 @@ allprojects {
 Step 2. Add the dependency
 ```groovy
 dependencies {
-    implementation 'com.github.ibrahimsn98:speedometer:1.0.1'
+    implementation 'com.github.mrlargha:speedometer:1.1.0'
 }
 ```
 
@@ -65,7 +63,7 @@ dependencies {
 ```
 MIT License
 
-Copyright (c) 2020 İbrahim Süren
+Copyright (c) 2020 İbrahim Süren, MrLargha
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
